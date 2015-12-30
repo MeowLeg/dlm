@@ -3,6 +3,7 @@
 from pyquery import PyQuery as pq
 import os, sqlite3, re, time, urllib2, json, random
 import cookielib
+import config
 
 class RedirectHandler(urllib2.HTTPRedirectHandler):
     def http_error_302(self, req, fp, code, msg, headers):
@@ -83,8 +84,7 @@ def formJson(data):
 
 def downloadImg(url, i):
     imgName = str(i)+"."+url.split("=")[1]
-    # cmd = "wget "+url+" -O /home/jh/busvideo/"+imgName
-    cmd = "wget "+url+" -O ./"+imgName # FIX ME
+    cmd = "wget " + url + " -O " + config.config["downloadPath"] + imgName
     os.system(cmd)
     return imgName
 
@@ -125,7 +125,6 @@ def log2Db(urls, db, cur):
                 print e
         time.sleep(int(random.random()*60)+1)
     db.commit()
-    db.close()
     getImg(downloads, db, cur)
 
 def loopSpider(urls, dbPath):
@@ -140,20 +139,8 @@ def loopSpider(urls, dbPath):
     log2Db([urls[lastId]], db, cur)
     cur.execute("insert into lastSpider(lastId) values (?)", (lastId,))
     db.commit()
+    db.close()
 
 if __name__ == '__main__':
-    urls = [
-            ("oIWsFtzlRvsDVd2e69iSjjYcTbW8", "舟山广电"), # 舟山广电
-            ("oIWsFt_90Pc5J5qYypXzgI9E11Rs", "讲拨侬听"), # 讲拨侬听
-            ("oIWsFt0JFB3-dVvN7xqgLwG7lTZQ", "汪大姐来了"), # 汪大姐来了
-            ("oIWsFt5bh4aAeUwAgsLrGjBke2A0", "舟山新闻综合频道"), # 舟山新闻综合频道
-            ("oIWsFt1OUb1JyTvY7AVBizjd4F-w", "舟山电视公共生活频道"), # 舟山电视公共生活频道
-            ("oIWsFtyXxULy9FfmEMrpYoo0Rxu4", "群岛旅游频道"), # 群岛旅游频道
-            ("oIWsFt8cgf4W8lutaRBM-4jC0nEA", "新闻998"), # 新闻998
-            ("oIWsFt-QtI5IGCGtE1Uc46aj0WZI", "交通97"), # 交通97
-            ("oIWsFt_HcL1-Bt57PtLs3NZbAYo8", "FM91"), # FM91
-            ("oIWsFt232h6j4SHUooOXzc1wcaXs", "舟山新周报") # 舟山新周报
-            ]
     # log2Db(urls)
-    dbPath = "/home/station6945/Code/dlm/middle.db" # FIX ME
-    loopSpider(urls, dbPath)
+    loopSpider(config.config["weixins"], config.config["dbPath"])

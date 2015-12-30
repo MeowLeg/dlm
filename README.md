@@ -16,9 +16,9 @@
 ###配置说明
 
     1. 先使用gen.sql构建sqlite3数据库
-    2. 在spider中修改weixinPider中main入口函数里的urls列表参数。每行项内包含两个参数，一是唯一号（可任意取），二是搜狗可（唯一）搜索到的关键词。
-    3. 在spider修改getCookie.py和weixinSpider.py中的数据库dbPath路径。
-    4. 在spider修改weixinSpider.py中downloadImg中的图片下载路径。
+    2. 在config.py中weixins列表参数。每行项内包含两个参数，一是唯一号（可任意取），二是搜狗可（唯一）搜索到的关键词。
+    3. 在config.py中修改getCookie.py和weixinSpider.py中的数据库dbPath路径。
+    4. 在config.py中修改weixinSpider.py中downloadImg中的图片下载路径。
     5. crontab-e，添加两个执行getCookie.py与weixinSpider.py的任务。
     
 ###后续

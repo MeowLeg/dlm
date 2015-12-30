@@ -4,6 +4,7 @@ import urllib2
 import cookielib
 import sqlite3
 import time
+import config
 
 def getSougouWeixinSearchCookie(url):
     cookie = cookielib.CookieJar()
@@ -33,5 +34,4 @@ def logIntoDb(cookie, dbPath):
 
 if __name__ == "__main__":
     url = "http://weixin.sogou.com/gzh?openid=oIWsFtzlRvsDVd2e69iSjjYcTbW8&ext=h3pzFjLZCZ0p2TwsGA-6Xxg0W3CMAFfeb_Cr4UDNmsW256Cvw6mL9CrC2-GkDaCn" # 舟山广电
-    dbPath = "/home/station6945/Code/dlm/middle.db" # FIX ME
-    logIntoDb(getSougouWeixinSearchCookie(url), dbPath)
+    logIntoDb(getSougouWeixinSearchCookie(url), config.config["dbPath"])
